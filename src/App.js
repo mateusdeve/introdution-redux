@@ -1,56 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import {useDispatch, useSelector} from 'react-redux'
+import { login } from './store/login';
 
 function App() {
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const dispatch = useDispatch();
+  const {data} = useSelector(state => state.login.user);
+  console.log(data);
+  function handleSubmit(e){
+    e.preventDefault();
+    dispatch(login({username, password}))
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="name">Usuário:</label>
+        <input value={username} onChange={e => setUsername(e.target.value) } style={{display: 'block'}} type="text" id="name"/>
+
+        <label htmlFor="senha">Senha:</label>
+        <input value={password} onChange={e => setPassword(e.target.value) } style={{display: 'block'}} type="text" id="senha"/>
+        <button>entrar</button>
+        <p>{data?.email}</p>
+      </form>
     </div>
   );
 }
